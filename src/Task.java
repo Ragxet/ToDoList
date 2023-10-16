@@ -1,34 +1,46 @@
+import java.time.LocalDate;
+
 class Task{
-    private int ID;
-    private String Description;
-    private boolean status;
+    private int id;
+    private String description;
+    private boolean completed;
+    LocalDate dueDate;
 
-    public Task(int ID, String description) {
-        this.ID = ID;
-        Description = description;
+    public Task(int id, String description, LocalDate dueDate) {
+        this.id = id;
+        this.description = description;
+        this.dueDate = dueDate;
     }
 
-    public int getID() {
-        return ID;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }
