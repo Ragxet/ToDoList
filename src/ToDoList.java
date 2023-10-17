@@ -9,6 +9,9 @@ public class ToDoList {
     private ArrayList<Task> tasks = new ArrayList<>();
     private int taskIdCounter = 1;
 
+    public ToDoList(){
+        loadTasksFromFile("Task_Data.txt");
+    }
 
     public void addTask(String description, LocalDate dueDate){
         Task task = new Task(taskIdCounter, description, dueDate);
@@ -50,10 +53,14 @@ public class ToDoList {
         tasks.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
+            int maxId = 0;
             while ((line = reader.readLine()) != null){
                 String[] parts = line.split("\\|");
                 if (parts.length == 4){
                     int id = Integer.parseInt(parts[0]);
+                    if (id > maxId){
+                        maxId = id;
+                    }
                     String description = parts[1];
                     boolean isStatus = Boolean.parseBoolean(parts[2]);
                     String dueDateStr = parts[3];
@@ -63,6 +70,7 @@ public class ToDoList {
                     tasks.add(task);
                 }
             }
+            taskIdCounter = maxId + 1;
             System.out.println("Tasks loaded from " + fileName);
         } catch (IOException e){
             System.err.println("Error loading tasks from file: " + e.getMessage());

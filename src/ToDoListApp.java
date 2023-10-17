@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,10 +28,25 @@ public class ToDoListApp {
                     System.out.print("Enter task description: ");
                     scanner.nextLine();
                     String description = scanner.nextLine();
-                    System.out.print("Enter due date (YYYY-MM-DD): ");
-                    String dueDateStr = scanner.next();
-                    LocalDate dueDate = LocalDate.parse(dueDateStr);
-                    toDoList.addTask(description, dueDate);
+                    if (!description.isEmpty()){
+                        LocalDate dueDate = null;
+                        boolean validDate = false;
+                        while(!validDate){
+                            System.out.print("Enter due date (YYYY-MM-DD): ");
+                            String dueDateStr = scanner.nextLine().trim();
+                            try {
+                                dueDate = LocalDate.parse(dueDateStr);
+                                validDate = true;
+                            } catch (DateTimeParseException e){
+                                System.out.println("Invalid date format");
+                            }
+                        }
+                        toDoList.addTask(description, dueDate);
+                        toDoList.saveTasksToFile("Task_Data.txt");
+                    } else {
+                        System.out.println("Task description cannot be empty");
+                    }
+
                     break;
                 case 2:
                     toDoList.viewTask();
@@ -50,6 +66,7 @@ public class ToDoListApp {
                     } else if (check == 2) {
                         toDoList.updateTaskStatus(taskId, false);
                     }
+                    toDoList.saveTasksToFile("Task_Data.txt");
                     break;
                 case 5:
                     toDoList.sortTasksByDueDate();
